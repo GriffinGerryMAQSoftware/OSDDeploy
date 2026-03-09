@@ -9,4 +9,10 @@ $Params = @{
     Firmware   = $true
 }
 
+$Global:MyOSDCloud = @{
+    WindowsUpdate          = $true
+    WindowsUpdateDrivers  = $true
+}
+
+
 Start-OSDCloud @Params
