@@ -1,4 +1,3 @@
-
 @echo off
 setlocal
 
@@ -7,11 +6,12 @@ set STAGE=C:\ProgramData\OSDCloud\Assets
 
 if not exist "%STAGE%" mkdir "%STAGE%"
 
-REM Copy payload assets locally before any OOBE work
+REM Stage payload assets locally (fast + safe)
 if exist "%SRC%Assets" (
   robocopy "%SRC%Assets" "%STAGE%" /E /R:2 /W:2 /NFL /NDL /NP
 )
 
-powershell.exe -NoProfile -ExecutionPolicy Bypass -File "%SRC%oobe_new.ps1" -Phase SetupComplete
+REM Run SYSTEM SetupComplete staging + task scheduling
+powershell.exe -NoProfile -ExecutionPolicy Bypass -File "%SRC%setup.ps1"
 
 exit /b 0

@@ -113,12 +113,12 @@ try {
         }
 
         # ----------------------------
-        # Install Microsoft Office (ODT)
+        # Copy Microsoft Office (ODT) files
         # ----------------------------
         $OfficeSetup = Join-Path $SrcAssets 'Office\setup.exe'
 
         if (Test-Path $OfficeSetup) {
-            Write-Log "Installing Microsoft Office via ODT"
+            Write-Log "Copying Microsoft Office ODT files"
 
             $OfficeDest = Join-Path $AssetsDest 'Office'
             New-Item -Path $OfficeDest -ItemType Directory -Force | Out-Null
@@ -126,21 +126,10 @@ try {
             Write-Log "Copying Office ODT payload from $($SrcAssets)\Office to $OfficeDest"
             Copy-Item -Path (Join-Path $SrcAssets 'Office\*') -Destination $OfficeDest -Recurse -Force
 
-            $SetupExe = Join-Path $OfficeDest 'setup.exe'
-            $CfgXml = Join-Path $OfficeDest 'configuration.xml'
-
-            if (-not (Test-Path $CfgXml)) {
-                Write-Log "WARNING: configuration.xml not found at $CfgXml. Office install may fail."
-            }
-
-            # Run ODT
-            Write-Log "Running: $SetupExe /configure $CfgXml"
-            $p = Start-Process -FilePath $SetupExe -ArgumentList "/configure `"$CfgXml`"" -Wait -PassThru
-            Write-Log "Office installer exit code: $($p.ExitCode)"
-            Write-Log "Office installation completed"
+            Write-Log "Office ODT files copied successfully (installation skipped)"
         }
         else {
-            Write-Log "Office installer not found. Skipping Office install."
+            Write-Log "Office installer not found. Skipping Office file copy."
         }
 
         Write-Log "SetupComplete phase completed successfully. Continuing to OOBE phase..."
