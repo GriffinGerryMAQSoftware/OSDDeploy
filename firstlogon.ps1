@@ -55,7 +55,7 @@ try {
   Write-Log "WinGet resolved: $winget"
 
   $apps = @(
-    @{Name='VS Code Insiders';     Id='Microsoft.VisualStudioCodeInsiders'},
+    @{Name='VS Code Insiders';     Id='Microsoft.VisualStudioCode.Insiders'},
     @{Name='Dell Command Update';  Id='dell.commandupdate'},
     @{Name='Adobe Acrobat Reader'; Id='Adobe.Acrobat.Reader.64-bit'},
     @{Name='Google Chrome';        Id='Google.Chrome'}
@@ -63,7 +63,7 @@ try {
 
   foreach ($app in $apps) {
     Write-Log "Installing $($app.Name) ($($app.Id))..."
-    & $winget install -e --silent --disable-interactivity --accept-package-agreements --accept-source-agreements --id $app.Id 2>&1 |
+    & $winget install -e --silent --disable-interactivity --accept-package-agreements --accept-source-agreements --source winget --id $app.Id 2>&1 |
       ForEach-Object { Write-Log $_ }
     Write-Log "WinGet ExitCode=$LASTEXITCODE for $($app.Name)"
     Start-Sleep -Seconds 2
